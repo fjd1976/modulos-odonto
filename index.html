@@ -65,14 +65,14 @@ header{padding-top:calc(12px + env(safe-area-inset-top))}
 <div id="modal"><div class="card" id="modalC"></div></div>
 
 <div id="vLogin">
- <header><div class="t">Módulos Quirúrgicos</div><div class="s">Ingresá con tu usuario de la Historia Clínica</div></header>
+ <header><div class="t">Módulos Quirúrgicos</div><div class="s">Ingresá con tu usuario de SaludTDF</div></header>
  <div class="wrap"><div class="card">
-  <label>Usuario de la HC (DNI)</label><input id="lu" inputmode="numeric" autocomplete="username" onblur="cargarUbic()">
-  <label>Ubicación</label><select id="lub" onchange="cargarSect()"><option value="">Poné tu usuario</option></select>
+  <label>Usuario de SaludTDF</label><input id="lu" inputmode="numeric" autocomplete="username" onblur="cargarUbic()">
+  <label>Lugar de trabajo</label><select id="lub" onchange="cargarSect()"><option value="">Lugar de trabajo</option></select>
   <label>Sector</label><select id="lse"><option value="">Seleccionar</option></select>
-  <label>Contraseña de la HC</label><input id="lp" type="password" autocomplete="current-password">
+  <label>Contraseña de SaludTDF</label><input id="lp" type="password" autocomplete="current-password">
   <button class="b" onclick="entrar()">Entrar</button>
-  <div class="chico">Tu contraseña se usa solo para validar el ingreso en la HC y no se guarda.</div>
+  <div class="chico">Tu contraseña se usa solo para validar el ingreso en SaludTDF y no se guarda.</div>
   <div id="lmsg"></div>
  </div></div>
 </div>
@@ -164,7 +164,7 @@ function cargarSect(){var u=g('lu').value.trim(),ub=g('lub').value;if(!ub)return
     var prev=ls('mq_se');if(prev&&l.some(function(o){return String(o.id)===prev}))s.value=prev;else if(l.length==1)s.selectedIndex=1;
   }).hcSectores(ub,u)}
 function entrar(){var u=g('lu').value.trim(),p=g('lp').value,ub=g('lub').value,se=g('lse').value;
-  if(!u||!p||!ub){msg('lmsg','Completá usuario, ubicación y contraseña.','e');return}
+  if(!u||!p||!ub){msg('lmsg','Completá usuario, lugar de trabajo y contraseña.','e');return}
   run('login',[u,p,ub,se],function(r){g('lp').value='';ls('mq_u',u);ls('mq_ub',ub);ls('mq_se',se);S.tok=r.token;ls('mq_tok',r.token);iniciar()},
     function(e){g('lp').value='';msg('lmsg',e.message,'e')})}
 function salirApp(){if(!confirm('¿Salir de la app?'))return;google.script.run.salir(S.tok);mostrarLogin()}
@@ -202,7 +202,7 @@ function buscar(cb){var id=g('fId').value.replace(/[^0-9]/g,'');g('fId').value=i
     g('fPac').innerHTML='<div class="pac"><b>'+esc(r.apellido)+' '+esc(r.nombre)+'</b><div class="chico">DNI '+dniF(r.dni)+' · Tratamiento del '+fd(r.fecha)+' '+esc(r.hora||'')+'</div></div>';
     cargarFotosHc();
     cb&&cb()})}
-function pedirClaveHc(cb){modal('<b>La sesión de la HC venció</b><label>Contraseña de la HC</label><input id="mp" type="password"><button class="b" id="mOk">Continuar</button><button class="b b2" onclick="cerrarModal()">Cancelar</button>');
+function pedirClaveHc(cb){modal('<b>La sesión de SaludTDF venció</b><label>Contraseña de SaludTDF</label><input id="mp" type="password"><button class="b" id="mOk">Continuar</button><button class="b b2" onclick="cerrarModal()">Cancelar</button>');
   g('mOk').onclick=function(){var p=g('mp').value;run('relogin',[S.tok,ls('mq_u'),p,ls('mq_ub'),ls('mq_se')],function(){cerrarModal();cb()},function(e){alert(e.message)})}}
 function modal(h){g('modalC').innerHTML=h;g('modal').style.display='flex'}
 function cerrarModal(){g('modal').style.display='none'}
