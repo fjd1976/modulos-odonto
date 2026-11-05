@@ -1,6 +1,6 @@
 // Service worker mínimo: permite instalar la app. Guarda la pantalla para abrirla rápido;
 // los datos siempre se piden al servidor (nunca se guardan datos de pacientes en el celular).
-const CACHE = 'modulos-v4';
+const CACHE = 'modulos-v5';
 const BASE = ['./', './index.html', './manifest.webmanifest', './icon-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
