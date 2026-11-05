@@ -1,0 +1,327 @@
+<!DOCTYPE html><html><head><base target="_top"><meta charset="utf-8">
+<title>Módulos Quirúrgicos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3864">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Módulos">
+<style>
+:root{--az:#1f3864;--az2:#e8edf6;--gr:#6b7280;--ok:#15803d;--okf:#dcfce7;--am:#a16207;--amf:#fef3c7;--rj:#b91c1c;--rjf:#fee2e2;--bl:#1d4ed8;--blf:#dbeafe;--gs:#f3f4f6}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f6f8;color:#111;font-size:15px}
+header{background:var(--az);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5}
+header .t{font-weight:bold;font-size:16px}
+header .s{font-size:12px;opacity:.85;margin-top:2px}
+header button{float:right;background:transparent;border:1px solid #fff;color:#fff;border-radius:6px;padding:4px 10px;font-size:13px}
+.wrap{max-width:560px;margin:0 auto;padding:12px 16px 80px}
+.card{background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+label{display:block;font-size:13px;color:#374151;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:10px;font-size:16px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+textarea{min-height:60px}
+button.b{width:100%;padding:12px;font-size:16px;border:0;border-radius:8px;background:var(--az);color:#fff;margin-top:12px}
+button.b2{background:#fff;color:var(--az);border:1px solid var(--az)}
+button.b3{background:var(--rj)}
+button:disabled{opacity:.5}
+.fila{display:flex;gap:8px}.fila>*{flex:1}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1;padding:10px;border:1px solid var(--az);background:#fff;color:var(--az);border-radius:8px;font-size:14px}
+.tabs button.on{background:var(--az);color:#fff}
+.msg{padding:10px;border-radius:8px;margin-top:10px;font-size:14px}
+.msg.e{background:var(--rjf);color:var(--rj)}.msg.o{background:var(--okf);color:var(--ok)}.msg.a{background:var(--amf);color:var(--am)}.msg.i{background:var(--az2);color:var(--az)}
+.pac{background:var(--az2);border-radius:8px;padding:10px;margin-top:10px}
+.pac b{font-size:16px}
+.res{display:flex;gap:8px;text-align:center}
+.res div{flex:1;background:var(--az2);border-radius:8px;padding:8px 4px}
+.res .n{font-size:20px;font-weight:bold;color:var(--az)}
+.res .l{font-size:11px;color:var(--gr)}
+.caso{border-left:5px solid var(--gr);position:relative}
+.caso.BORRADOR{border-color:#9ca3af}.caso.ENVIADO{border-color:#d97706}.caso.APROBADO{border-color:var(--ok)}.caso.DESAPROBADO{border-color:var(--rj)}.caso.PRESENTADO{border-color:var(--bl)}
+.est{display:inline-block;font-size:12px;font-weight:bold;padding:2px 8px;border-radius:10px;background:var(--gs)}
+.est.ENVIADO{background:var(--amf);color:var(--am)}.est.APROBADO{background:var(--okf);color:var(--ok)}.est.DESAPROBADO{background:var(--rjf);color:var(--rj)}.est.PRESENTADO{background:var(--blf);color:var(--bl)}
+.nuevo{position:absolute;top:10px;right:10px;background:var(--rj);color:#fff;font-size:11px;padding:2px 6px;border-radius:8px}
+.chico{font-size:13px;color:#4b5563;margin-top:4px}
+.acc{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.acc button{flex:1;min-width:120px;padding:8px;font-size:13px;border-radius:8px;border:1px solid var(--az);background:#fff;color:var(--az)}
+.acc button.p{background:var(--az);color:#fff}
+.acc button.r{border-color:var(--rj);color:var(--rj)}
+.oculto{display:none}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#modal .card{width:100%;max-width:440px;margin:0}
+#cargando{position:fixed;inset:0;background:rgba(255,255,255,.7);display:none;align-items:center;justify-content:center;z-index:30;font-size:16px;color:var(--az)}
+img.vista{max-width:100%;border-radius:8px;margin-top:8px}
+.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:6px;margin:4px 4px 0 0}
+.hcf{display:inline-block;position:relative;margin:6px 6px 0 0;cursor:pointer}
+.hcf img,.hcf .hcv{width:84px;height:84px;object-fit:cover;border-radius:8px;border:3px solid #e5e7eb;display:block;background:#e5e7eb}
+.hcf.rx img{border-color:var(--ok)}.hcf.ex img{border-color:var(--bl)}
+.hcf span{position:absolute;left:5px;top:5px;color:#fff;font-size:11px;font-weight:bold;padding:1px 6px;border-radius:6px;background:var(--ok)}
+.hcf.ex span{background:var(--bl)}
+header{padding-top:calc(12px + env(safe-area-inset-top))}
+</style></head><body>
+<div id="cargando">Procesando...</div>
+<div id="modal"><div class="card" id="modalC"></div></div>
+
+<div id="vLogin">
+ <header><div class="t">Módulos Quirúrgicos</div><div class="s">Ingresá con tu usuario de la Historia Clínica</div></header>
+ <div class="wrap"><div class="card">
+  <label>Usuario de la HC (DNI)</label><input id="lu" inputmode="numeric" autocomplete="username" onblur="cargarUbic()">
+  <label>Ubicación</label><select id="lub" onchange="cargarSect()"><option value="">Poné tu usuario</option></select>
+  <label>Sector</label><select id="lse"><option value="">Seleccionar</option></select>
+  <label>Contraseña de la HC</label><input id="lp" type="password" autocomplete="current-password">
+  <button class="b" onclick="entrar()">Entrar</button>
+  <div class="chico">Tu contraseña se usa solo para validar el ingreso en la HC y no se guarda.</div>
+  <div id="lmsg"></div>
+ </div></div>
+</div>
+
+<div id="vMain" class="oculto">
+ <header><button onclick="salirApp()">Salir</button><div class="t" id="hNom"></div><div class="s" id="hSub"></div></header>
+ <div class="wrap">
+  <div class="tabs"><button id="tN" onclick="tab('N')">Nuevo caso</button><button id="tM" onclick="tab('M')">Mis casos</button><button id="tT" class="oculto" onclick="tab('T')">Todos</button></div>
+
+  <div id="pN">
+   <div class="card">
+    <div id="fTit" style="font-weight:bold">Nuevo caso</div>
+    <label>ID del odontograma (HC)</label>
+    <div class="fila"><input id="fId" inputmode="numeric" placeholder="Ej. 41290"><button class="b" style="margin-top:0;flex:0 0 110px" onclick="buscar()">Buscar</button></div>
+    <div id="fPac"></div>
+    <label>Módulo</label><select id="fMod" onchange="cambioMod()"></select>
+    <label>Ayudante (opcional)</label><select id="fAyu"></select>
+    <label>RX (obligatoria)</label>
+    <div id="fHc" class="chico"></div>
+    <div id="fHcFotos"></div>
+    <div class="chico" style="margin-top:8px">Si no está en la HC, subila desde el celular:</div>
+    <input id="fRx" type="file" accept="image/*" onchange="vistaPrevia()">
+    <div id="fRxAct" class="chico"></div>
+    <label>Imágenes extra (hasta 3 en total, opcional)</label><input id="fImg" type="file" accept="image/*" multiple onchange="vistaPrevia()">
+    <div class="thumbs" id="fThumbs"></div>
+    <label>Comentarios</label><textarea id="fCom"></textarea>
+    <button class="b" onclick="pedirEnvio(null)">Enviar</button>
+    <button class="b b2" onclick="guardar('BORRADOR')">Guardar para enviar después</button>
+    <button class="b b2 oculto" id="fCancel" onclick="limpiar()">Cancelar edición</button>
+    <div id="fMsg"></div>
+   </div>
+  </div>
+
+  <div id="pM" class="oculto">
+   <div class="card"><div style="font-weight:bold;margin-bottom:8px" id="rTit"></div><div class="res" id="rRes"></div></div>
+   <div class="tabs"><button id="sC" class="on" onclick="sub('C')">Como cirujano</button><button id="sA" onclick="sub('A')">Como ayudante</button></div>
+   <select id="mFil" onchange="pintarCasos()" style="margin-bottom:12px">
+    <option value="">Todos los estados</option><option>BORRADOR</option><option>ENVIADO</option><option>APROBADO</option><option>DESAPROBADO</option><option>PRESENTADO</option>
+   </select>
+   <div id="mLista"></div>
+  </div>
+
+  <div id="pT" class="oculto">
+   <select id="tFil" onchange="pintarTodos()" style="margin-bottom:12px">
+    <option value="ENVIADO">Enviados (a auditar)</option><option value="">Todos los estados</option><option>APROBADO</option><option>DESAPROBADO</option><option>BORRADOR</option>
+   </select>
+   <div id="tLista"></div>
+  </div>
+ </div>
+</div>
+
+<script>
+// Puente con el servidor (Apps Script): imita google.script.run usando fetch.
+var API_URL='https://script.google.com/macros/s/AKfycbwaQE4idsgiF6_r4t2qUHtywZGYPwLf6YUxm30A5cWjkA6CSabNam4fyWburMkctaZovA/exec';
+var google={script:{run:(function mk(ok,fail){var o={withSuccessHandler:function(f){return mk(f,fail)},withFailureHandler:function(f){return mk(ok,f)}};
+  ["hcUbicaciones", "hcSectores", "login", "relogin", "salir", "datosIniciales", "misCasos", "buscarId", "contarDia", "hcImagenes", "hcImagen", "verImagen", "guardarCaso", "enviarBorrador", "noParticipe"].forEach(function(n){o[n]=function(){var args=[].slice.call(arguments);
+    fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn:n,args:args})})
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+      .then(function(j){if(j.ok){ok&&ok(j.res)}else{fail&&fail(new Error(j.error))}},
+            function(){fail&&fail(new Error('No hay conexión con el servidor. Probá de nuevo.'))})}});
+  return o})()}};
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js')});
+</script>
+<script>
+var S={tok:null,me:null,rol:null,cfg:null,mods:[],profs:[],casos:[],hc:null,edit:null,sub:'C',fotos:[]};
+function g(i){return document.getElementById(i)}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function cargando(b){g('cargando').style.display=b?'flex':'none'}
+function msg(id,t,c){g(id).innerHTML=t?'<div class="msg '+(c||'i')+'">'+t+'</div>':''}
+function fd(iso){if(!iso)return '';var p=iso.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+function dniF(d){d=String(d||'');return d.replace(/[^0-9]/g,'').replace(/(?=(?:[0-9]{3})+$)(?!^)/g,'.')}
+function hoyIso(){var d=new Date();var m=d.getMonth()+1,dd=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(dd<10?'0':'')+dd}
+function run(fn,args,ok,err){cargando(true);var r=google.script.run.withSuccessHandler(function(x){cargando(false);ok&&ok(x)}).withFailureHandler(function(e){cargando(false);
+  if(String(e.message).indexOf('SESION_VENCIDA')>=0){alert('Tu sesión venció. Ingresá de nuevo.');mostrarLogin();return}
+  err?err(e):alert(e.message)});r[fn].apply(r,args)}
+
+// ------------------------------ login
+function mostrarLogin(){S.tok=null;ls('mq_tok',null);g('vMain').classList.add('oculto');g('vLogin').classList.remove('oculto');
+  var u=ls('mq_u');if(u){g('lu').value=u;cargarUbic()}}
+function cargarUbic(){var u=g('lu').value.trim();if(!u)return;
+  google.script.run.withSuccessHandler(function(l){var s=g('lub');s.innerHTML='<option value="">Seleccionar</option>';
+    l.forEach(function(o){s.innerHTML+='<option value="'+o.id+'">'+esc(o.nombre)+'</option>'});
+    var prev=ls('mq_ub');if(prev&&l.some(function(o){return String(o.id)===prev}))s.value=prev;else if(l.length==1)s.selectedIndex=1;
+    if(s.value)cargarSect()}).withFailureHandler(function(e){msg('lmsg',e.message,'e')}).hcUbicaciones(u)}
+function cargarSect(){var u=g('lu').value.trim(),ub=g('lub').value;if(!ub)return;
+  google.script.run.withSuccessHandler(function(l){var s=g('lse');s.innerHTML='<option value="">Seleccionar</option>';
+    l.forEach(function(o){s.innerHTML+='<option value="'+o.id+'">'+esc(o.nombre)+'</option>'});
+    var prev=ls('mq_se');if(prev&&l.some(function(o){return String(o.id)===prev}))s.value=prev;else if(l.length==1)s.selectedIndex=1;
+  }).hcSectores(ub,u)}
+function entrar(){var u=g('lu').value.trim(),p=g('lp').value,ub=g('lub').value,se=g('lse').value;
+  if(!u||!p||!ub){msg('lmsg','Completá usuario, ubicación y contraseña.','e');return}
+  run('login',[u,p,ub,se],function(r){g('lp').value='';ls('mq_u',u);ls('mq_ub',ub);ls('mq_se',se);S.tok=r.token;ls('mq_tok',r.token);iniciar()},
+    function(e){g('lp').value='';msg('lmsg',e.message,'e')})}
+function salirApp(){if(!confirm('¿Salir de la app?'))return;google.script.run.salir(S.tok);mostrarLogin()}
+
+// ------------------------------ inicio
+function iniciar(){run('datosIniciales',[S.tok],function(d){
+  S.me=d.nombre;S.rol=d.rol;S.cfg=d.config;S.mods=d.modulos;S.profs=d.profesionales;S.casos=d.casos;
+  g('vLogin').classList.add('oculto');g('vMain').classList.remove('oculto');
+  g('hNom').textContent=d.nombre;g('hSub').textContent=d.config.sede+' · Mes abierto: '+d.config.mes+' '+d.config.periodo.split('/')[1];
+  if(d.rol==='JEFE')g('tT').classList.remove('oculto');
+  var sm=g('fMod');sm.innerHTML='<option value="">Elegí el módulo</option>';
+  ['A','B','C'].forEach(function(c){var og=document.createElement('optgroup');og.label='Categoría '+c;
+    S.mods.filter(function(m){return m.c===c}).forEach(function(m){var o=document.createElement('option');o.value=m.p;o.textContent=m.p;og.appendChild(o)});sm.appendChild(og)});
+  llenarAyu();tab(contarNuevos()>0?'M':'N');
+})}
+function llenarAyu(){var s=g('fAyu');s.innerHTML='<option value="">Sin ayudante</option>';
+  S.profs.filter(function(p){return p!==S.me}).forEach(function(p){s.innerHTML+='<option>'+esc(p)+'</option>'})}
+function tab(t){['N','M','T'].forEach(function(x){g('p'+x).classList.toggle('oculto',x!==t);g('t'+x).classList.toggle('on',x===t)});
+  if(t==='M'){pintarResumen();pintarCasos()} if(t==='T')pintarTodos()}
+function sub(x){S.sub=x;g('sC').classList.toggle('on',x==='C');g('sA').classList.toggle('on',x==='A');pintarCasos()}
+function recargar(cb){run('misCasos',[S.tok],function(c){S.casos=c;cb&&cb()})}
+
+// ------------------------------ formulario
+function catDe(p){var m=S.mods.filter(function(x){return x.p===p})[0];return m?m.c:''}
+function cambioMod(){var c=catDe(g('fMod').value);var a=g('fAyu');
+  if(c==='C'){a.value='';a.disabled=true}else a.disabled=false}
+function buscar(cb){var id=g('fId').value.replace(/[^0-9]/g,'');g('fId').value=id;if(!id){msg('fPac','Ingresá el ID.','e');return}
+  run('buscarId',[S.tok,id,S.edit?S.edit.id:''],function(r){
+    if(r.vencida){pedirClaveHc(function(){buscar(cb)});return}
+    S.hc=null;S.fotos=[];g('fHc').textContent='';g('fHcFotos').innerHTML='';
+    if(r.dup){msg('fPac','Ese ID ya está cargado en el caso '+r.dup.id+' ('+r.dup.cirujano+', '+r.dup.estado+'). Cada tratamiento tiene un ID único: revisá el número.','e');return}
+    if(r.noExiste){msg('fPac','Ese ID no existe en la HC. Revisá el número.','e');return}
+    if(r.error){msg('fPac',r.error,'e');return}
+    S.hc={idhc:id,apellido:r.apellido,nombre:r.nombre,dni:r.dni,fecha:r.fecha,paci:r.paci};
+    g('fPac').innerHTML='<div class="pac"><b>'+esc(r.apellido)+' '+esc(r.nombre)+'</b><div class="chico">DNI '+dniF(r.dni)+' · Tratamiento del '+fd(r.fecha)+' '+esc(r.hora||'')+'</div></div>';
+    cargarFotosHc();
+    cb&&cb()})}
+function pedirClaveHc(cb){modal('<b>La sesión de la HC venció</b><label>Contraseña de la HC</label><input id="mp" type="password"><button class="b" id="mOk">Continuar</button><button class="b b2" onclick="cerrarModal()">Cancelar</button>');
+  g('mOk').onclick=function(){var p=g('mp').value;run('relogin',[S.tok,ls('mq_u'),p,ls('mq_ub'),ls('mq_se')],function(){cerrarModal();cb()},function(e){alert(e.message)})}}
+function modal(h){g('modalC').innerHTML=h;g('modal').style.display='flex'}
+function cerrarModal(){g('modal').style.display='none'}
+
+// ------------------------------ fotos de la HC (Archivos > Imágenes, misma fecha que el odontograma)
+function cargarFotosHc(){S.fotos=[];g('fHcFotos').innerHTML='';
+  if(!S.hc||!S.hc.paci){g('fHc').textContent='';return}
+  g('fHc').textContent='Buscando fotos en la HC...';
+  google.script.run.withSuccessHandler(function(r){
+    if(r.vencida){pedirClaveHc(cargarFotosHc);return}
+    r.grupos.forEach(function(gr){gr.fotos.forEach(function(p){S.fotos.push({path:p,desc:gr.desc,est:'',url:''})})});
+    if(!S.fotos.length){g('fHc').textContent='La HC no tiene imágenes del '+fd(S.hc.fecha)+(r.otras?' (hay '+r.otras+' de otras fechas)':'')+'.';return}
+    g('fHc').textContent='Fotos de la HC del '+fd(S.hc.fecha)+'. Tocá una foto: 1 vez = RX, 2 veces = imagen extra, 3 veces = quitar.';
+    pintarFotos();S.fotos.forEach(function(f){miniatura(f)})
+  }).withFailureHandler(function(e){if(String(e.message).indexOf('SESION_VENCIDA')>=0){alert('Tu sesión venció. Ingresá de nuevo.');mostrarLogin();return}
+    g('fHc').textContent=e.message}).hcImagenes(S.tok,S.hc.paci,S.hc.fecha)}
+function miniatura(f){google.script.run.withSuccessHandler(function(u){var im=new Image();im.onload=function(){
+    var k=Math.min(1,240/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+    c.getContext('2d').drawImage(im,0,0,c.width,c.height);f.url=c.toDataURL('image/jpeg',0.75);pintarFotos()};im.src=u})
+  .withFailureHandler(function(){f.url='x';pintarFotos()}).hcImagen(S.tok,f.path)}
+function pintarFotos(){g('fHcFotos').innerHTML=S.fotos.map(function(f,i){var c=f.est==='RX'?' rx':(f.est==='EX'?' ex':'');
+  return '<div class="hcf'+c+'" onclick="tocarFoto('+i+')">'+(f.est?'<span>'+(f.est==='RX'?'RX':'Extra')+'</span>':'')+
+    (f.url&&f.url!=='x'?'<img src="'+f.url+'">':'<div class="hcv"></div>')+'</div>'}).join('')}
+function extrasElegidas(){return S.fotos.filter(function(f){return f.est==='EX'}).length+Math.min(3,g('fImg').files.length)}
+function tocarFoto(i){var f=S.fotos[i],sig=f.est===''?'RX':(f.est==='RX'?'EX':'');
+  if(sig==='RX')S.fotos.forEach(function(x){if(x.est==='RX')x.est=''});
+  if(sig==='EX'&&extrasElegidas()>=3){msg('fMsg','Ya hay 3 imágenes extra.','a');sig=''}
+  f.est=sig;pintarFotos()}
+
+function comprimir(file,cb){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var M=1600,w=im.width,h=im.height,k=Math.min(1,M/Math.max(w,h));
+  var c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  var u=c.toDataURL('image/jpeg',0.8);cb({b64:u.split(',')[1],mime:'image/jpeg',url:u})};im.onerror=function(){cb(null)};im.src=fr.result};fr.readAsDataURL(file)}
+function vistaPrevia(){var t=g('fThumbs');t.innerHTML='';var fs=[].slice.call(g('fRx').files).concat([].slice.call(g('fImg').files).slice(0,3));
+  fs.forEach(function(f){var u=URL.createObjectURL(f);t.innerHTML+='<img src="'+u+'">'});
+  if(g('fImg').files.length>3)msg('fMsg','Solo se toman las primeras 3 imágenes extra.','a')}
+function leerArchivos(cb){var rx=g('fRx').files[0],ims=[].slice.call(g('fImg').files).slice(0,3),out={rx:null,imgs:[null,null,null]},pend=1+ims.length;
+  function fin(){if(--pend===0)cb(out)}
+  if(rx)comprimir(rx,function(r){out.rx=r?{b64:r.b64,mime:r.mime}:null;fin()});else fin();
+  ims.forEach(function(f,i){comprimir(f,function(r){out.imgs[i]=r?{b64:r.b64,mime:r.mime}:null;fin()})})}
+function datosForm(){var h=S.hc||{};return {idCaso:S.edit?S.edit.id:'',idhc:g('fId').value.replace(/[^0-9]/g,''),apellido:h.apellido||'',nombre:h.nombre||'',dni:h.dni||'',
+  fecha:h.fecha||'',modulo:g('fMod').value,ayudante:g('fAyu').value,comentarios:g('fCom').value,
+  rxHc:(S.fotos.filter(function(f){return f.est==='RX'})[0]||{}).path||'',
+  imgsHc:S.fotos.filter(function(f){return f.est==='EX'}).map(function(f){return f.path})}}
+function validar(enviar){var d=datosForm();
+  if(!d.idhc)return 'Falta el ID del odontograma.';
+  if(!d.modulo)return 'Elegí el módulo.';
+  if(enviar&&!S.hc)return 'Tocá "Buscar" para traer los datos del paciente desde la HC.';
+  if(enviar&&!g('fRx').files[0]&&!d.rxHc&&!(S.edit&&S.edit.tieneRx))return 'La RX es obligatoria: elegí una foto de la HC o subila desde el celular.';
+  if(d.imgsHc.length+Math.min(3,g('fImg').files.length)>3)return 'Máximo 3 imágenes extra en total.';
+  return ''}
+function pedirEnvio(caso){
+  if(!caso){var e=validar(true);if(e){msg('fMsg',e,'e');return}}
+  var fr=caso?caso.fecha:S.hc.fecha;
+  modal('<b>Fecha de presentación</b><div class="chico">Tratamiento del '+fd(fr)+'. Elegí el día en que se presenta este módulo.</div><input id="mF" type="date" min="'+fr+'" value="'+(hoyIso()<fr?fr:hoyIso())+'"><div id="mInfo"></div><button class="b" id="mOk">Confirmar envío</button><button class="b b2" onclick="cerrarModal()">Cancelar</button>');
+  var info=function(){var f=g('mF').value;if(!f)return;google.script.run.withSuccessHandler(function(n){
+      var t='Ya tenés '+n+' módulo'+(n==1?'':'s')+' presentado'+(n==1?'':'s')+' el '+fd(f)+'.';
+      msg('mInfo',n>=S.cfg.limite?t+' Con este superás el límite de '+S.cfg.limite+' por día.':t,n>=S.cfg.limite?'a':'i')}).contarDia(S.tok,f)};
+  g('mF').onchange=info;info();
+  g('mOk').onclick=function(){var f=g('mF').value;if(!f||f<fr){alert('La fecha de presentación no puede ser anterior al tratamiento.');return}cerrarModal();
+    if(caso)run('enviarBorrador',[S.tok,caso.id,f],function(r){recargar(function(){pintarResumen();pintarCasos();alert('Caso '+r.id+' enviado.')})});
+    else guardar('ENVIAR',f)}}
+function guardar(accion,fpres){var e=validar(accion==='ENVIAR');if(e){msg('fMsg',e,'e');return}
+  cargando(true);leerArchivos(function(a){var d=datosForm();d.accion=accion;d.fpres=fpres||'';d.rx=a.rx;d.imgs=a.imgs;
+    run('guardarCaso',[S.tok,d],function(r){limpiar();msg('fMsg','Caso '+r.id+' '+(r.estado==='ENVIADO'?'enviado a auditoría.':'guardado para enviar después.'),'o');recargar()},
+      function(err){msg('fMsg',err.message,'e')})})}
+function limpiar(){S.edit=null;S.hc=null;S.fotos=[];['fId','fCom'].forEach(function(i){g(i).value=''});g('fMod').value='';g('fAyu').value='';g('fAyu').disabled=false;
+  g('fRx').value='';g('fImg').value='';g('fThumbs').innerHTML='';g('fRxAct').textContent='';g('fPac').innerHTML='';g('fHc').textContent='';g('fHcFotos').innerHTML='';
+  g('fTit').textContent='Nuevo caso';g('fCancel').classList.add('oculto')}
+function editar(id){var c=S.casos.filter(function(x){return x.id===id})[0];if(!c)return;limpiar();S.edit=c;tab('N');
+  g('fTit').textContent=(c.estado==='DESAPROBADO'?'Corregir caso ':'Editar borrador ')+c.id;g('fCancel').classList.remove('oculto');
+  g('fId').value=c.idhc;g('fMod').value=c.modulo;g('fAyu').value=c.ayudante;g('fCom').value=c.comentarios;cambioMod();
+  if(c.tieneRx)g('fRxAct').textContent='Ya tiene RX cargada. Elegí o subí otra solo si querés reemplazarla.';
+  if(c.estado==='DESAPROBADO'&&c.motivo)msg('fMsg','Motivo del jefe: '+esc(c.motivo),'e');
+  if(c.apellido){S.hc={idhc:c.idhc,apellido:c.apellido,nombre:c.nombre,dni:c.dni,fecha:c.fecha};
+    g('fPac').innerHTML='<div class="pac"><b>'+esc(c.apellido)+' '+esc(c.nombre)+'</b><div class="chico">DNI '+dniF(c.dni)+' · Tratamiento del '+fd(c.fecha)+'</div></div>'}
+  g('fHc').innerHTML='<a href="#" onclick="buscar();return false">Traer fotos de la HC</a>'}
+
+// ------------------------------ mis casos
+function puntos(c){var p=S.cfg.pesos;if(c.cirujano===S.me)return p[c.cat]||0;if(c.ayudante===S.me&&!c.noParticipo)return p[c.catAy]||0;return 0}
+function pintarResumen(){var per=S.cfg.periodo,ap=0,n={A:0,B:0,C:0},cnt={BORRADOR:0,ENVIADO:0,DESAPROBADO:0};
+  S.casos.forEach(function(c){if(c.cirujano!==S.me&&c.ayudante!==S.me)return;
+    if((c.estado==='APROBADO'||c.estado==='PRESENTADO')&&c.periodo===per){var pt=puntos(c);ap+=pt;var k=c.cirujano===S.me?c.cat:c.catAy;if(n[k]!==undefined&&pt)n[k]++}
+    if(c.cirujano===S.me&&cnt[c.estado]!==undefined&&(c.estado==='BORRADOR'||c.periodo===per))cnt[c.estado]++});
+  g('rTit').textContent='Resumen de '+S.cfg.mes;
+  g('rRes').innerHTML='<div><div class="n" style="color:'+(ap>S.cfg.tope?'#b91c1c':'')+'">'+ap+'/'+S.cfg.tope+'</div><div class="l">puntos aprobados</div></div>'+
+    '<div><div class="n">'+n.A+'·'+n.B+'·'+n.C+'</div><div class="l">A · B · C</div></div>'+
+    '<div><div class="n">'+cnt.ENVIADO+'</div><div class="l">a auditar</div></div>'+
+    '<div><div class="n">'+cnt.BORRADOR+'</div><div class="l">sin enviar</div></div>'+
+    '<div><div class="n" style="color:'+(cnt.DESAPROBADO?'#b91c1c':'')+'">'+cnt.DESAPROBADO+'</div><div class="l">desaprob.</div></div>'}
+function vistos(){try{return JSON.parse(ls('mq_vistos')||'{}')}catch(e){return {}}}
+function contarNuevos(){var v=vistos();return S.casos.filter(function(c){return (c.cirujano===S.me||c.ayudante===S.me)&&c.upd&&v[c.id]&&v[c.id]<c.upd||(c.ayudante===S.me&&!v[c.id])}).length}
+function tarjeta(c,modo){var v=vistos(),nuevo=(c.upd&&v[c.id]&&v[c.id]<c.upd)||(modo==='A'&&!v[c.id]);
+  var h='<div class="card caso '+c.estado+'">'+(nuevo?'<span class="nuevo">NUEVO</span>':'')+
+   '<span class="est '+c.estado+'">'+c.estado+'</span> <span class="chico">'+c.id+'</span>'+
+   '<div style="margin-top:6px"><b>'+esc(c.apellido||'(sin datos de la HC)')+' '+esc(c.nombre)+'</b></div>'+
+   '<div class="chico">'+esc(c.modulo)+'</div>'+
+   '<div class="chico">Tratamiento '+fd(c.fecha)+(c.fpres?' · Presentación '+fd(c.fpres):'')+' · ID '+esc(c.idhc)+'</div>'+
+   (modo==='A'?'<div class="chico">Cirujano: '+esc(c.cirujano)+' · Tu categoría: '+esc(c.catAy)+'</div>':(c.ayudante?'<div class="chico">Ayudante: '+esc(c.ayudante)+(c.noParticipo?' (indicó que no participó)':'')+'</div>':''))+
+   (modo==='T'?'<div class="chico">Cirujano: '+esc(c.cirujano)+'</div>':'')+
+   (c.estado==='DESAPROBADO'&&c.motivo?'<div class="msg e">Motivo: '+esc(c.motivo)+'</div>':'')+
+   (c.alertas?'<div class="msg a">'+esc(c.alertas)+'</div>':'')+'<div class="acc">';
+  if(c.tieneRx)h+='<button onclick="verRx(&quot;'+c.id+'&quot;)">Ver RX</button>';
+  if(modo==='C'&&c.estado==='BORRADOR')h+='<button onclick="editar(&quot;'+c.id+'&quot;)">Editar</button><button class="p" onclick="enviarB(&quot;'+c.id+'&quot;)">Enviar</button>';
+  if(modo==='C'&&c.estado==='DESAPROBADO')h+='<button class="p" onclick="editar(&quot;'+c.id+'&quot;)">Corregir y reenviar</button>';
+  if(modo==='A'&&!c.noParticipo&&c.estado!=='PRESENTADO')h+='<button class="r" onclick="noPart(&quot;'+c.id+'&quot;)">No participé</button>';
+  return h+'</div></div>'}
+function pintarCasos(){var f=g('mFil').value,m=S.sub,v=vistos();
+  var l=S.casos.filter(function(c){return (m==='C'?c.cirujano===S.me:c.ayudante===S.me)&&(!f||c.estado===f)});
+  l.sort(function(a,b){return (b.fpres||b.fecha||'').localeCompare(a.fpres||a.fecha||'')});
+  g('mLista').innerHTML=l.length?l.map(function(c){return tarjeta(c,m)}).join(''):'<div class="card chico">No hay casos.</div>';
+  l.forEach(function(c){v[c.id]=Math.max(c.upd||1,1)});ls('mq_vistos',JSON.stringify(v))}
+function pintarTodos(){var f=g('tFil').value;var l=S.casos.filter(function(c){return !f||c.estado===f});
+  l.sort(function(a,b){return (b.fpres||b.fecha||'').localeCompare(a.fpres||a.fecha||'')});
+  g('tLista').innerHTML=l.length?l.map(function(c){return tarjeta(c,'T')}).join(''):'<div class="card chico">No hay casos.</div>'}
+function enviarB(id){var c=S.casos.filter(function(x){return x.id===id})[0];if(!c.apellido){editar(id);msg('fMsg','Antes de enviar, tocá "Buscar" para traer los datos desde la HC.','a');return}pedirEnvio(c)}
+function noPart(id){if(!confirm('¿Confirmás que no participaste como ayudante en este caso? Se avisa al cirujano y a los jefes.'))return;
+  run('noParticipe',[S.tok,id],function(){recargar(pintarCasos)})}
+function verRx(id){run('verImagen',[S.tok,id,0],function(u){modal('<img class="vista" src="'+u+'"><button class="b" onclick="cerrarModal()">Cerrar</button>')})}
+
+// ------------------------------ arranque
+(function(){var t=ls('mq_tok');if(t){S.tok=t;google.script.run.withSuccessHandler(function(){iniciar()}).withFailureHandler(function(){mostrarLogin()}).misCasos(t)}else mostrarLogin()})();
+</script></body></html>
